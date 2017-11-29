@@ -1,0 +1,324 @@
+{% extends "base.html" %} 
+
+{% block header %}
+<script src="/static/js/jquery-3.2.1.min.js"></script> 
+<script src="/static/js/jquery-2.1.4.min.js"></script> 
+<script src="/static/js/jquery.form.js"></script> 
+<script src="/static/js/bootstrap.min.js"></script> 
+{% endblock%}
+
+{% block content %}
+<!-- <div class="wrapper wrapper-content animated fadeInRight"> -->
+<div>
+    <h1 id="grp-admin-title">{% autoescape off %}ansible playbook名为【{{ report_data.name }}】的执行报告{% endautoescape %}</h1>
+
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+    
+    <h2 id="grp-admin-title">基本信息</h2>
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            {% autoescape off %}
+            <tr>
+                <td>uuid</td>
+                <td>{{ report_data.uuid }}</td>
+            </tr>
+        
+            <tr>
+                <td>开始时间</td>
+                <td>{{ report_data.create_time }}</td>
+            </tr>
+            
+            <tr>
+                <td>结束时间</td>
+                <td>{{ report_data.end_time }}</td>
+            </tr>
+            
+            <tr>
+                <td>执行时长</td>
+                <td>{{ report_data.duration }}秒</td>
+            </tr>
+
+            <tr>
+                <td>说明</td>
+                <td>{{ report_data.describe }}</td>
+            </tr>
+            {% endautoescape %}
+        </tbody>
+    </table>
+        
+    <h2 id="grp-admin-title">执行报告</h2>   
+    {% for playid , playdict in report_data.exec_result.items %}
+    <h3 id="grp-admin-title">playbook uuid为【{{ playid }}】</h3>   
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                {% autoescape off %}
+                <td>主机组</td>
+                <td>{{ playdict.pattern }}</td>
+                {% endautoescape %}
+            </tr>
+        
+            <tr>
+                <td>概述</td>
+                <td>
+				    <table class="table table-striped table-bordered table-hover">
+				        <tbody>
+				            {% for hosts , content in playdict.summary.items %}
+				            <tr>
+				                {% autoescape off %}
+				                <td>{{ hosts }}</td>
+				                {% endautoescape %}
+				                
+                                {% autoescape off %}
+                                {% if content %}
+                                <td>{{ content }}</td>
+                                {% else %}
+                                <td>正在执行中，请点击<a href="/ansible/report/detail?uuid={{ report_data.uuid }}&mode={{ report_data.mode }}&force=True"><button type="button" class="btn btn-sm btn-primary" >强制刷新</button></a></td>
+                                {% endif %}
+                                {% endautoescape %}
+				            </tr>
+				            {% endfor %}
+				        </tbody>
+				    </table>
+                </td>
+            </tr>
+        
+            <tr>
+                <td>详细报告</td>
+                <td>
+                    <table class="table table-striped table-bordered table-hover">
+                        <tbody>
+                            {% for tasks , tasksdict in playdict.tasks.items %}
+				            <tr>
+				                {% autoescape off %}
+				                <td>
+				                task名称【{{ tasks }}】
+				                <!--  
+				                </br>
+				                </br>
+				                </br>
+				                任务信息：
+				                </br>
+				                模块名：{{ tasksdict.tasks.module }}
+                                </br>
+				                模块参数：{{ tasksdict.tasks.args }}
+				                -->
+				                </br>
+				                </br>
+				                </br>
+				                在各个主机执行情况
+				                </td>
+				                {% endautoescape %}
+				                <td>
+
+								    <table class="table table-striped table-bordered table-hover">
+								        <tbody>
+								            {% for hosts , content in tasksdict.detail.items %}
+								            <tr>
+								                {% autoescape off %}
+								                <td>{{ hosts }}</td>
+								                {% endautoescape %}
+								                
+								                <td>
+								                {% if not content %}
+								                正在执行中，请点击<a href="/ansible/report/detail?uuid={{ report_data.uuid }}&mode={{ report_data.mode }}&force=True"><button type="button" class="btn btn-sm btn-primary" >强制刷新</button></a>
+								                {% else %}
+								                <table class="table table-striped table-bordered table-hover">
+								                {% for title , value in content.items %}
+								                <tbody>
+								                    <tr>
+								                        {% autoescape off %}
+								                        <td>{{ title }}</td>
+								                        {% endautoescape %}
+								    
+								                        {% autoescape off %}
+								                        {% if value %}
+								                        <td>{{ value }}</td>
+								                        {% else %}
+								                        <td></td>
+								                        {% endif %}
+								                        {% endautoescape %}
+								                    </tr>
+								                </tbody>
+								                {% endfor %}
+								                </table>
+								                {% endif %}
+								                </td>
+								            </tr>
+								            {% endfor %}
+								        </tbody>
+								    </table>
+
+                                </td>
+				            </tr>
+				            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        
+        
+        </tbody>
+    </table>
+    {% endfor %}
+    
+      
+
+    <h2 id="grp-admin-title">执行时初始信息</h2>           
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                <td>主机文件内容</td>
+                {% autoescape off %}
+                <td>{{ report_data.inventory_content }}</td>
+                {% endautoescape %}
+            </tr>
+            
+            <tr>
+                <td>执行时参数</td>
+                <td>
+	                <table class="table table-striped table-bordered table-hover">
+	                {% for title , value in report_data.options.items %}
+		                <tbody>
+		                    <tr>
+		                        {% autoescape off %}
+		                        <td>{{ title }}</td>
+		                        {% endautoescape %}
+		    
+		                        {% autoescape off %}
+		                        {% if value %}
+		                        <td>{{ value }}</td>
+		                        {% else %}
+		                        <td></td>
+		                        {% endif %}
+		                        {% endautoescape %}
+		                    </tr>
+		                </tbody>
+	                {% endfor %}
+	                </table>
+                </td>
+            </tr>
+            
+            
+            <tr>
+                <td>yaml文件内容</td>
+                <td>
+				    <table class="table table-striped table-bordered table-hover">
+				        <tbody>
+				            <tr>
+				                {% if report_data.yaml_content.main %}
+				                <td>main</td>
+				                {% autoescape off %}
+				                <td>{{ report_data.yaml_content.main }}</td>
+				                {% endautoescape %}
+				                {% endif %}
+				            </tr>
+				                
+				            <tr>
+				                {% if report_data.yaml_content.roles %}
+				                <td>roles</td>
+				                
+				                <td>
+				                
+				                    <table class="table table-striped table-bordered table-hover">
+				                        <tbody>
+				                        {% for roles_name,roles_dict in report_data.yaml_content.roles.items %}
+				                            <tr>
+				                                <td>{{ roles_name }}</td>
+				                            
+				                                <td>
+				                                    <table class="table table-striped table-bordered table-hover">
+				                                    <tbody>
+				                                        {% for this_path,path_content in roles_dict.items %}
+				                                            <tr>
+				                                                {% if this_path == 'templates' %}
+				                                                <td>templates</td>
+				                
+				                                                <td>
+				                                                    <table class="table table-striped table-bordered table-hover">
+				                                                        <tbody>
+				                                                            {% for tempfile,temp_content in path_content.items %}
+				                                                            <tr>
+				                                                                <td>{{ tempfile }}</td>
+				                                                                {% autoescape off %}
+				                                                                <td>{{ temp_content }}</td>
+				                                                                {% endautoescape %}
+				                                                            </tr>
+				                                                            {% endfor %}
+				                                                        </tbody>
+				                                                    </table>
+				                                                </td>
+				                                                
+				                                                {% else %}
+				                                                {% autoescape off %}
+				                                                <td>{{ this_path }}</td>
+				                                                <td>{{ path_content }}</td>
+				                                                {% endautoescape %}
+				                                                {% endif %}
+				                                            </tr>
+				                                        
+				                                        {% endfor %}
+				                                        </tbody>
+				                                    </table>
+				                                </td>
+				                                
+				                            </tr>
+				                        {% endfor %}
+				                        </tbody>
+				                    </table>
+				                
+				                </td>
+				                
+				                {% endif %}
+				            </tr>
+				                
+				            <tr>
+				                {% if report_data.yaml_content.include %}
+				                <td>include</td>
+				                
+				                <td>
+				                    <table class="table table-striped table-bordered table-hover">
+				                    <tbody>
+				                        {% for include_name,content_dict in report_data.yaml_content.include.items %}
+				                            <tr>
+				                                {% autoescape off %}
+				                                <td>{{ include_name }}</td>
+				                                {% endautoescape %}
+				                                
+				                                {% autoescape off %}
+				                                <td>{{ content_dict }}</td>
+				                                {% endautoescape %}
+				                            </tr>
+				                        
+				                        {% endfor %}
+				                        </tbody>
+				                    </table>
+				                </td>
+				                {% endif %}
+				            </tr>
+				        </tbody>
+				    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+<a href="/ansible/report/"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</br>
+</br>
+</br>
+<a href="/ansible/report/detail?uuid={{ report_data.uuid }}&mode={{ report_data.mode }}&force=True"><button type="button" class="btn btn-sm btn-primary" >强制刷新</button></a>
+</br>
+</br>
+</br>
+<a href="/ansible/report/detail?uuid={{ report_data.uuid }}&mode={{ report_data.mode }}&force=True&orig_content=True"><button type="button" class="btn btn-sm btn-primary" >查看原文</button></a>
+</div>
+
+</br>
+</br>
+</br>
+</br>
+{% endblock%}

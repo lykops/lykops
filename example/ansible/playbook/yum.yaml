@@ -1,0 +1,14 @@
+- hosts : all
+  tasks :
+  - name : yum upgrade
+    yum : name='*' state=latest
+  - name : yum install telnet ntpdate 
+    yum : name={{item}} state=latest
+    with_items :
+      - telnet
+      - ntpdate
+      
+  - name : yum install nginx
+    yum : name=nginx state=latest
+  - name : yum remove nginx
+    yum : name=nginx state=absent

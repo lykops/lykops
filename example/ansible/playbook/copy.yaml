@@ -1,0 +1,8 @@
+- hosts : all
+  tasks :
+  - name : copy /root/a.py to /tmp/a.py
+    copy : src=/root/a.py dest=/tmp/a.py owner=root mode=744 group=root force=yes follow=yes directory_mode=None backup=yes remote_src=False
+  - name : copy content to /tmp/aa.py
+    copy : dest=/tmp/aa.py owner=root mode=744 group=root force=yes follow=yes directory_mode=None content='aa' backup=yes remote_src=False
+  - name : copy remote_src to /tmp/a.py
+    copy : src=http://www.baidu.com/ dest=/tmp/aaa.py owner=root mode=744 group=root force=yes follow=yes directory_mode=None backup=yes remote_src=True

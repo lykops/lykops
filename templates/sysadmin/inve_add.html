@@ -1,0 +1,22 @@
+{% extends "base.html" %} 
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight col-sm-6">
+    <h1 id="grp-admin-title">新增主机</h1>
+   
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+                
+    <form class="m-t" role="form" method="post" action="">
+    {% csrf_token %}        
+        {% autoescape off %}
+        {{ html_code }}
+        {% endautoescape %}
+        <button type="submit" class="btn btn-sm btn-primary">确认</button>
+    </form>
+
+    </br>
+    </br>
+    <a href="/inventory/list"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</div>
+{% endblock%}

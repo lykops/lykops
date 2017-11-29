@@ -1,0 +1,8 @@
+- hosts : all
+  vars :
+    ntpd_server : 'us.pool.ntp.org'
+  tasks :
+  - name : ensure ntpdate is at the latest version
+    yum : name=ntpdate state=latest
+  - name : updata time {{ntpd_server}}
+    shell : ntpdate {{ntpd_server}}

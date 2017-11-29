@@ -1,0 +1,4 @@
+- name : restart nginx 
+  shell : ./nginx -t && ./nginx -s stop ; ./nginx
+  args:
+    chdir: "{{install_dir}}/sbin/"

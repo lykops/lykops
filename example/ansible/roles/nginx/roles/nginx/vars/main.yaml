@@ -1,0 +1,5 @@
+download_baseurl : 'http://nginx.org/download'
+version : '1.12.0'
+download_url : "{{download_baseurl }}/nginx-{{version}}.tar.gz"
+install_dir : "/tmp/nginx"
+default_port : 80

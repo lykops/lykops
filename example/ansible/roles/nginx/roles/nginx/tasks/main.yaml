@@ -1,0 +1,20 @@
+- include : yum.yaml
+
+- name : wget {{download_url}}
+  get_url : url={{download_url}} dest=/tmp/nginx-{{version}}.tar.gz timeout=600
+
+- name : unzip
+  shell : mv nginx-{{version}} nginx-{{version}}-$(date +%s)-ansiblebk ; tar zxf nginx-{{version}}.tar.gz 
+  args:
+    chdir: /tmp/
+
+- name : install nginx
+  shell : ./configure --prefix={{install_dir}} > /dev/null && make > /dev/null && make install > /dev/null
+  args:
+    chdir: /tmp/nginx-{{version}}
+  register : inst_res
+  when : dep_res.results[0].rc == 0
+
+- name: create nginx vhost
+  template: src=nginx.conf.j2 dest={{install_dir}}/conf/nginx.conf
+  notify : restart nginx

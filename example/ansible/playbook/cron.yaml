@@ -1,0 +1,6 @@
+- hosts : all
+  tasks :    
+    - name : add cron
+      cron : name="check dirs" minute=5 hour="5,2" job="ls -alh > /dev/null" backup=yes day=2 month=1  state=absent weekday=3
+    - name : remove cron
+      cron : name="check dirs" minute=5 hour="5,2" job="ls -alh > /dev/null" backup=yes day=2 month=1  state=present weekday=3

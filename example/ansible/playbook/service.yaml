@@ -1,0 +1,7 @@
+- hosts : all
+  tasks :
+  - name : service nginx start and boot start
+    service : name={{item}} enabled=yes state=restarted 
+    with_items :
+      - nginx
+      - crond

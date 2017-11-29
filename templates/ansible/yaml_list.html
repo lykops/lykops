@@ -1,0 +1,70 @@
+{% extends "base.html" %} 
+
+{% block header %}
+<script src="/static/js/jquery-3.2.1.min.js"></script> 
+<script src="/static/js/jquery-2.1.4.min.js"></script> 
+<script src="/static/js/jquery.form.js"></script> 
+<script src="/static/js/bootstrap.min.js"></script> 
+{% endblock%}
+
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight">
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+    
+    <a href="/ansible/yaml/add"><button type="button" class="btn btn-sm btn-primary" >新增</button></a>
+    <a href="/ansible/yaml/import"><button type="button" class="btn btn-sm btn-primary" >导入</button></a>
+    </br>
+    </br>
+    
+    <form class="form-horizontal" action="" method="get">
+        <label for="id_type">yaml类型</label>
+            <select id="yaml_tpye" name="yaml_tpye">
+                <option id="main" value="main">main</option>
+                <!--  
+                <option id="main" value="main">单main文件（不含roles和/或include等字段）</option>
+                <option id="full_roles" value="full_roles">main文件（含roles和/或include等字段）</option>
+                <option id="roles" value="roles">roles</option>
+                <option id="include" value="include">include</option>
+                -->
+            </select>
+        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+    </form>
+    </br>
+
+    <table class="table table-striped table-bordered table-hover" id="editable" >
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>类型</th>
+                <th>说明</th>
+                <th></th>
+            </tr>
+        </thead>
+          
+        <tbody>
+        {% for abs_dict in abs_list %}
+            <tr class="active">
+	            <td>{{ abs_dict.name }}</td>
+	            <td>{{ abs_dict.type }}</td>
+	            <td>{{ abs_dict.describe }}</td>
+	            <td>
+	                <a href="/ansible/yaml/detail?uuid={{ abs_dict.uuid }}"><button type="button" class="btn btn-sm btn-primary" >查看</button></a>
+	                <a href="/ansible/yaml/edit?uuid={{ abs_dict.uuid }}"><button type="button" class="btn btn-sm btn-primary" >编辑</button></a>
+	            </td> 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<a href="/ansible/yaml/"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+{% endblock%}

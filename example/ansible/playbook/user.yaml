@@ -1,0 +1,7 @@
+- hosts : all
+  tasks :
+  - name : userdel temp
+    user : name=temp state=absent move_home=yes force=yes remove=yes
+  - name : useradd temp
+    user : name=temp move_home=yes password=1qaz2sx home=/home/tmp generate_ssh_key=yes
+    

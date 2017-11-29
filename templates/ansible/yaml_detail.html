@@ -1,0 +1,125 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="">
+<!-- <div class="wrapper wrapper-content animated fadeInRight col-sm-6"> -->
+    <h1 id="grp-admin-title">查看ansible的名为【{{name}}】的yaml数据</h1>
+    </br>
+   
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+   
+    <table class="table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                {% if main %}
+                <td>main</td>
+                {% autoescape off %}
+                <td>{{ main }}</td>
+                {% endautoescape %}
+                {% endif %}
+            </tr>
+                
+            <tr>
+                {% if roles %}
+                <td>roles</td>
+                
+                <td>
+                
+                    <table class="table-striped table-bordered table-hover">
+                        <tbody>
+                        {% for roles_name,roles_dict in roles.items %}
+                            <tr>
+                                <td>{{ roles_name }}</td>
+                            
+                                <td>
+				                    <table class="table-striped table-bordered table-hover">
+				                    <tbody>
+				                        {% for this_path,path_content in roles_dict.items %}
+				                            <tr>
+				                                {% if this_path == 'templates' %}
+				                                <td>templates</td>
+				
+				                                <td>
+				                                    <table class="table-striped table-bordered table-hover">
+				                                        <tbody>
+				                                            {% for tempfile,temp_content in path_content.items %}
+				                                            <tr>
+				                                                <td>{{ tempfile }}</td>
+				                                                {% autoescape off %}
+				                                                <td>{{ temp_content }}</td>
+				                                                {% endautoescape %}
+				                                            </tr>
+				                                            {% endfor %}
+				                                        </tbody>
+				                                    </table>
+				                                </td>
+				                                
+				                                {% else %}
+				                                {% autoescape off %}
+				                                <td>{{ this_path }}</td>
+				                                <td>{{ path_content }}</td>
+				                                {% endautoescape %}
+				                                {% endif %}
+				                            </tr>
+				                        
+				                        {% endfor %}
+				                        </tbody>
+				                    </table>
+			                    </td>
+			                    
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                
+			    </td>
+			    
+			    {% endif %}
+            </tr>
+                
+            <tr>
+                {% if include %}
+                <td>include</td>
+                
+                <td>
+                    <table class="table-striped table-bordered table-hover">
+                    <tbody>
+                        {% for include_name,content_dict in include.items %}
+                            <tr>
+                                {% autoescape off %}
+                                <td>{{ include_name }}</td>
+                                {% endautoescape %}
+                                
+                                {% autoescape off %}
+                                <td>{{ content_dict }}</td>
+                                {% endautoescape %}
+                            </tr>
+                        
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="edit?uuid={{ uuid }}"><button type="button" class="btn btn-sm btn-primary" >编辑</button></a>
+    </br>
+    </br>
+    <a href="{{ http_referer }}"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</div>
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+{% endblock%}

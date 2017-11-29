@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>lykops运维系统</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    </head>
+
+	<body class="gray-bg">
+	    <div class="middle-box text-center loginscreen  animated fadeInDown">
+	        <div>
+	            <div><h1 class="logo-name"><img src="/static/img/logo.jpg"></h1></div>
+	            <h3>欢迎使用lykops运维系统</h3>
+	            
+                {% if error_message %}
+                <div class="alert alert-danger text-center">{{ error_message }}</div>
+                {% endif %}
+	            
+	            </br>
+	            
+	            <form class="m-t" role="form" method="post" action="">
+	            {% csrf_token %}
+	                <div class="form-group">
+	                    <input type="text" name="username" class="form-control" placeholder="请输入您的用户名" required="length[2~16]">
+	                </div>
+	                <div class="form-group">
+	                    <input type="password" name="password" class="form-control" placeholder="请输入您的登陆密码" required="length[8~16]">
+	                </div>
+                    <div class="form-group">
+                        <input type="password" name="vault_password" class="form-control" placeholder="请输入您的vault密码" required="length[8~16]">
+                    </div>
+                    </br>
+	                <button type="submit" class="btn btn-primary block full-width m-b">登陆</button>
+	            </form>
+
+                </br>
+	           
+	            <p class="m-t"> <small>
+	            Copyright lyk-ops &copy; 2017
+	            </br>
+	            官网：https://github.com/lykops/lykops
+	            </small> </p>
+	        </div>
+	    </div>
+	</body>
+</html>

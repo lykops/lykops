@@ -1,0 +1,41 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight col-sm-6">
+    <h1 id="grp-admin-title">编辑用户【{{login_user}}】的机密数据</h1>
+    </br>
+   
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+                
+    <form class="m-t" role="form" method="post" action="">
+    {% csrf_token %}       
+        -------------------------------------------原有数据------------------------------------------- 
+        </br>  
+        {% for key , value in data_dict.items %}
+        <div class="form-group">
+            名称：<input type="text" name="key:{{ key }}" class="" value="{{ key }}" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值：<input type="text" name="vaule:{{ key }}:{{ value }}" class="" value="{{ value }}">
+        </div> 
+        {% endfor %}
+        
+        </br> 
+        -------------------------------------------分隔符-------------------------------------------
+        </br>  
+        </br>  
+        -------------------------------------------新增数据-------------------------------------------     
+                            
+        {% for i in new_list %}
+        <div class="form-group">
+            名称：<input type="text" name="key:{{ i }}" class="" placeholder="请输入机密数据的名称">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值：<input type="text" name="vaule:{{ i }}" class="" placeholder="请输入机密数据的值">
+        </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-sm btn-primary">确认</button>
+    </form>
+
+    </br>
+    </br>
+    <a href="detail"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</div>
+{% endblock%}

@@ -1,0 +1,6 @@
+- hosts: all
+  gather_facts: False
+  #这样写是错误，执行时会报错
+  #- include : groups_var/main.yaml
+  roles:
+  - role: nginx

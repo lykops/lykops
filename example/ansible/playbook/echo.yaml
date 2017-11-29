@@ -1,0 +1,11 @@
+- hosts : all
+  tasks :
+  - name : echo a
+    shell : echo a
+  - name : echo b
+    shell : echo b
+  - name : echo c
+    shell : echo c
+    
+  #这是写法错误
+  #- include : /opt/lykops/example/ansible/roles/main.yaml

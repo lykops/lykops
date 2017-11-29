@@ -1,0 +1,46 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <h1 id="grp-admin-title">新增yaml文件</h1>
+    
+    </br>
+    <form id="add"  name="add"  enctype="multipart/form-data" action=""  method="post"  class="form-horizontal">
+    {% csrf_token %}
+        <div class="form-group">
+            名称：<input type="text" name="name" class="" placeholder="只能输入英文或者数字，2-32个字母或者数字" required="length[2~32]">
+        </div> 
+
+        <div class="form-group">
+			文件类型：<select id="yaml_tpye" name="yaml_tpye">
+			<option id="main" value="main">单main文件</option>
+			<!--  
+			<option id="main" value="main">单main文件（文件内容不含roles和/或include等字段）</option>
+			<option id="include" value="include">include文件</option>
+			-->
+			</select>
+        </div>
+
+        <!-- 
+        <div class="form-group">
+	        include类型（仅限于include）：<select id="file_type" name="file_type">
+	        <option id="tasks" value="tasks">tasks：执行文件</option>
+	        <option id="var" value="var">vars：变量文件</option>
+	        </select>
+        </div>
+        -->
+
+	    <div class="form-group">
+	        内容：
+	        <textarea name="content" cols="80" rows="4" required="length[2~]" placeholder="yaml内容"></textarea>
+	    </div>
+	    
+        <div class="form-group">
+            描述：
+            <textarea name="describe" cols="80" rows="4" placeholder="描述下该yaml用途"></textarea>
+        </div>
+	    
+        <button type="submit" class="btn btn-sm btn-primary">保存</button>
+	</form>
+</div>
+{% endblock%}

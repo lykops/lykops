@@ -1,0 +1,17 @@
+ansible==2.3.0
+cryptography
+django==1.11
+#django-celery
+django-redis-sessions
+celery
+celery-with-redis
+filetype
+filetypes
+hiredis
+#mysqlclient
+pymongo
+#python-daemon
+rarfile
+redis
+#requests
+#requests-toolbelt

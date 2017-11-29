@@ -1,0 +1,20 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="alert alert-success text-center">尊敬的{{login_user}}用户：你好！</div>
+    <a href="/logout.html"><button type="button" class="btn btn-sm btn-warning" >退出登录</button></a>
+    
+    </br>
+    </br>
+    </br>
+
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+
+        {% autoescape off %}
+        {{nav_html}}
+        {% endautoescape %}
+
+        </ul>
+    </div>
+
+
+</nav>

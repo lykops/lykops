@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+
+{% block header %}
+<script src="/static/js/jquery-3.2.1.min.js"></script> 
+<script src="/static/js/jquery-2.1.4.min.js"></script> 
+<script src="/static/js/jquery.form.js"></script> 
+<script src="/static/js/bootstrap.min.js"></script> 
+{% endblock%}
+
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight">
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+    
+    </br>
+    <a href="/ansible/report/list?force=True"><button type="button" class="btn btn-sm btn-primary" >刷新列表</button></a>
+    </br>
+    </br>
+    
+    <form class="form-horizontal" action="" method="get">
+        <label for="create_date">任务执行日期</label>
+        <select id="create_date" name="create_date">
+            <option selected="selected" id="None" value="None">请选择日期</option>
+            {% for dt in date_list %}
+            <option id="{{ dt }}" value="{{ dt }}">{{ dt }}</option>
+            {% endfor %}
+        </select>
+        <label for="mode">工作模式</label>
+        <select id="mode" name="mode">
+            <option selected="selected" id="all" value="all">全部</option>
+            <option id="playbook" value="playbook">playbook任务</option>
+            <option id="adhoc" value="adhoc">临时任务</option>
+        </select>
+        <button type="submit" class="btn btn-sm btn-primary">搜索</button>
+    </form>
+    </br>
+    
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+            <tr>
+                <td>名称</td>
+                <td>创建时间</td>
+                <td>任务类型</td>
+                <td>描叙</td>
+                <td></td>
+                <td></td>
+            </tr>
+            
+            {% for work_dict in work_list %}
+            <tr>
+                {% autoescape off %}
+                <td>{{ work_dict.name }}</td>
+                {% endautoescape %}
+                
+                {% autoescape off %}
+                <td>{{ work_dict.create_time }}</td>
+                {% endautoescape %}
+                
+                {% autoescape off %}
+                <td>{{ work_dict.mode }}</td>
+                {% endautoescape %}
+                
+                {% autoescape off %}
+                <td>{{ work_dict.describe }}</td>
+                {% endautoescape %}
+                
+                <td>
+                <a href="/ansible/report/detail?uuid={{ work_dict.uuid }}&mode={{ work_dict.mode }}"><button type="button" class="btn btn-sm btn-primary" >查看报告</button></a>
+                </td>
+                
+                <td>
+                <a href="/ansible/report/detail?uuid={{ work_dict.uuid }}&mode={{ work_dict.mode }}&force=True&orig_content=True"><button type="button" class="btn btn-sm btn-primary" >查看报告【原文】</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+   
+	<a href="/ansible/report/list?force=True"><button type="button" class="btn btn-sm btn-primary" >刷新列表</button></a>
+    
+</div>
+
+
+<a href="{{ http_referer }}"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+{% endblock%}

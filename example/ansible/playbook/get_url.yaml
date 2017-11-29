@@ -1,0 +1,6 @@
+- hosts : all
+  tasks :
+  - name : get http://mirrors.163.com to /tmp/mirrors163.txt
+    get_url : url=http://mirrors.163.com/rpmfusion/free/fedora/rpmfusion-free-release-22.noarch.rpm dest=/tmp/mirrors163.txt owner=root mode=744 group=root force=yes backup=yes use_proxy=no 
+  - name : get http://blog.csdn.net/nov_csdn/article/details/52959346 to /tmp/csdn.txt
+    get_url : url=http://blog.csdn.net/nov_csdn/article/details/52959346 dest=/tmp/csdn.txt owner=root mode=744 group=root force=yes backup=yes validate_certs=no

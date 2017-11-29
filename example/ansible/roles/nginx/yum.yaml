@@ -1,0 +1,13 @@
+- name : install dependency package
+  yum : name={{item}}
+  with_items :
+    - glibc 
+    - openssl 
+    - openssl-devel 
+    - openssl-static 
+    - openssl098e 
+    - openssl-libs 
+    - autoconf 
+    - gcc 
+    - gcc-c++ 
+  register : dep_res

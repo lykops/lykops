@@ -1,0 +1,39 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="wrapper wrapper-content animated fadeInRight col-sm-6">
+    <h1 id="grp-admin-title">查看ansible配置</h1>
+    </br>
+   
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+   
+    <table class="table table-striped table-bordered table-hover "  id="editable" >
+        <tbody>
+            <tr>
+                <th>名称</th>
+                <td>值</td>
+                <td>中文含义</td>
+            </tr>
+        </tbody>
+    
+        <tbody>
+        {% for d in data %}
+            <tr>
+				{% autoescape off %}
+                <td>{{ d.0 }}</td>
+                <td>{{ d.1 }}</td>
+                <td>{{ d.2 }}</td>
+				{% endautoescape %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="edit"><button type="button" class="btn btn-sm btn-primary" >编辑</button></a>
+    </br>
+    </br>
+    <a href="{{ http_referer }}"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</div>
+{% endblock%}

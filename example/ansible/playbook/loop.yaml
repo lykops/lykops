@@ -1,0 +1,36 @@
+- hosts : all
+  tasks :
+  - name : yum packages
+    yum : name={{item}}
+    with_items :
+      - telnet
+      - ntpdate
+
+- hosts : all
+  remote_user : root
+  tasks :
+  - name : yum packages
+    yum : name={{item.name}}
+    with_items :
+      - {'name' : 'telnet'}
+      - {'name' : 'ntpdate'}
+
+- hosts : all
+  remote_user : root
+  vars :
+    yum : 
+      wget : "wget"
+      curl : "$curl" 
+  tasks :
+    - name : yum install {{ item.key }}
+      yum : name={{ item.value }}
+      with_dict : "{{yum}}"
+
+#- hosts : all
+#  remote_user : root
+#  tasks :
+#  - name : test
+#    shell : cat {{item}}
+#    when : item == "/root/test.yaml"
+#    with_fileglob :
+#    - /root/*

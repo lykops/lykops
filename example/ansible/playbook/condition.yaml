@@ -1,0 +1,23 @@
+- hosts : group1
+  vars :
+    ntpdate_server : 'us.pool.ntp.org'
+  tasks :
+  - name : ensure ntpdate is at the latest version
+    yum : name=ntpdate state=latest
+  - name : ntpdate {{ntpdate_server}}
+    shell : ntpdate {{ntpdate_server}}
+    when : ansible_all_ipv4_addresses == '192.168.40.88'
+
+- hosts : group1
+  vars :
+    ntpdate_server : 'us.pool.ntp.org'
+  tasks :
+  - name : register var
+    command : /bin/false
+    register : result
+    ignore_errors: True
+  - name : utpdate {{ntpdate_server}}
+    shell : utpdate {{ntpdate_server}}
+    when : result == False
+      
+      

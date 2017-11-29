@@ -1,0 +1,4 @@
+- hosts : all
+  tasks :
+  - name : raw
+    raw : sh /root/a.sh

@@ -1,0 +1,180 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="">
+<!-- <div class="wrapper wrapper-content animated fadeInRight col-sm-6"> -->
+    <h1 id="grp-admin-title">编辑ansible的名为{{name}}的yaml数据</h1>
+    </br>
+   
+    {% if error_message %}
+    <div class="alert alert-danger text-center">{{ error_message }}</div>
+    {% endif %}
+   
+    <form id="edit"  name="edit"  enctype="multipart/form-data" action=""  method="post"  class="form-horizontal">
+    {% csrf_token %}
+        <div class="form-group">
+            名称：<input type="text" name="name" class="" value="{{name}}" required="length[2~32]">
+        </div> 
+
+        <!--  
+        <div class="form-group">
+            文件类型：<select id="yaml_tpye" name="yaml_tpye">
+            {% if yaml_tpye == 'main' %}
+            <option id="main" selected="selected" value="main">单main文件（文件内容不含roles和/或include等字段）</option>
+            {% else %}
+            <option id="main" value="main">单main文件（文件内容不含roles和/或include等字段）</option>
+            {% endif %}
+            
+            {% if yaml_tpye == 'roles' %}
+            <option id="roles" selected="selected" value="roles">roles</option>
+            {% else %}
+            <option id="roles" value="roles">roles</option>
+            {% endif %}
+            
+            {% if yaml_tpye == 'include' %}
+            <option id="include" selected="selected" value="include">include文件</option>
+            {% else %}
+            <option id="include" value="include">include文件</option>
+            {% endif %}
+            </select>
+        </div>
+        -->
+
+        {% if file_type %}
+        <div class="form-group">
+            include类型（仅限于include）：<select id="file_type" name="file_type">
+            {% if file_type == 'tasks' %}
+            <option id="tasks" selected="selected" value="tasks">tasks：执行文件</option>
+            {% else %}
+            <option id="tasks" value="tasks">tasks：执行文件</option>
+            {% endif %}
+            
+            {% if file_type == 'var' %}
+            <option id="var" selected="selected" value="var">vars：变量文件</option>
+            {% else %}
+            <option id="var" value="var">vars：变量文件</option>
+            {% endif %}
+            </select>
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            内容：
+            <!-- <textarea name="content" cols="100" rows="6" required="length[2~]" placeholder="yaml内容"></textarea> -->
+            
+            
+		    <table class="table-striped table-bordered table-hover">
+		        <tbody>
+		            <tr>
+		                {% if main %}
+		                <td>main</td>
+		                <td><textarea name="main" cols="100" rows="6" required="length[2~]">{{ main }}</textarea></td>
+		                {% endif %}
+		            </tr>
+		                
+		            <tr>
+		                {% if roles %}
+		                <td>roles</td>
+		                
+		                <td>
+		                
+		                    <table class="table-striped table-bordered table-hover">
+		                        <tbody>
+		                        {% for roles_name,roles_dict in roles.items %}
+		                            <tr>
+		                                <td>{{ roles_name }}</td>
+		                            
+		                                <td>
+		                                    <table class="table-striped table-bordered table-hover">
+		                                    <tbody>
+		                                        {% for this_path,path_content in roles_dict.items %}
+		                                            <tr>
+		                                                {% if this_path == 'templates' and path_content %}
+		                                                <td>templates</td>
+		                
+		                                                <td>
+		                                                    <table class="table-striped table-bordered table-hover">
+		                                                        <tbody>
+		                                                            {% for tempfile,temp_content in path_content.items %}
+		                                                            <tr>
+		                                                                <td>{{ tempfile }}</td>
+		                                                                <td><textarea name="roles:{{ roles_name }}:{{ this_path }}:{{ tempfile }}" cols="80" rows="6" required="length[2~]">{{ temp_content }}</textarea></td>
+		                                                            </tr>
+		                                                            {% endfor %}
+		                                                        </tbody>
+		                                                    </table>
+		                                                </td>
+		                                                
+		                                                {% else %}
+		                                                <td>{{ this_path }}</td>
+		                                                <td><textarea name="roles:{{ roles_name }}:{{ this_path }}" cols="100" rows="6" required="length[2~]">{{ path_content }}</textarea></td>
+		                                                {% endif %}
+		                                            </tr>
+		                                        
+		                                        {% endfor %}
+		                                        </tbody>
+		                                    </table>
+		                                </td>
+		                                
+		                            </tr>
+		                        {% endfor %}
+		                        </tbody>
+		                    </table>
+		                
+		                </td>
+		                
+		                {% endif %}
+		            </tr>
+		                
+		            <tr>
+		                {% if include %}
+		                <td>include</td>
+		                
+		                <td>
+		                    <table class="table-striped table-bordered table-hover">
+		                    <tbody> 
+		                        {% for include_name,content_dict in include.items %}
+		                            <tr>
+		                                {% autoescape off %}
+		                                <td>{{ include_name }}</td>
+		                                {% endautoescape %}
+		                                
+		                                <td><textarea name="include:{{ include_name }}" cols="100" rows="6" required="length[2~]">{{ content_dict }}</textarea></td>
+		                            </tr>
+		                        
+		                        {% endfor %}
+		                        </tbody>
+		                    </table>
+		                </td>
+		                {% endif %}
+		            </tr>
+		        </tbody>
+		    </table>
+            
+            
+            
+        </div>
+        
+        <div class="form-group">
+            描述：
+            <textarea name="describe" cols="100" rows="2">{{ describe }}</textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-sm btn-primary">保存</button>
+    </form>
+
+    </br>
+    <a href="/ansible/yaml/detail?uuid={{ uuid }}"><button type="button" class="btn btn-sm btn-primary" >返回</button></a>
+</div>
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+{% endblock%}
