@@ -10,16 +10,16 @@
         <div class="form-group">
             名称：<input type="text" name="name" class="" placeholder="只能输入英文或者数字，2-32个字母或者数字" required="length[2~32]">
         </div> 
-
+        
+        <!--
         <div class="form-group">
 			文件类型：<select id="yaml_tpye" name="yaml_tpye">
 			<option id="main" value="main">单main文件</option>
-			<!--  
 			<option id="main" value="main">单main文件（文件内容不含roles和/或include等字段）</option>
 			<option id="include" value="include">include文件</option>
-			-->
 			</select>
         </div>
+        -->
 
         <!-- 
         <div class="form-group">
@@ -32,7 +32,7 @@
 
 	    <div class="form-group">
 	        内容：
-	        <textarea name="content" cols="80" rows="4" required="length[2~]" placeholder="yaml内容"></textarea>
+	        <textarea name="content" cols="80" rows="4" required="length[2~]" placeholder="yaml内容，内容不能含roles和/或include等字段"></textarea>
 	    </div>
 	    
         <div class="form-group">

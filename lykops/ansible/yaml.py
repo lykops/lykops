@@ -28,7 +28,8 @@ class Yaml(Base):
             if form.is_valid():
                 name = request.POST.get('name')
                 content = request.POST['content']
-                yaml_tpye = request.POST['yaml_tpye']
+                yaml_tpye = 'main'
+                # request.POST['yaml_tpye']
                 file_type = request.POST['file_type']
                 describe = request.POST['describe']
                 
@@ -60,7 +61,8 @@ class Yaml(Base):
             if form.is_valid():
                 name = request.POST.get('name')
                 describe = request.POST['describe']
-                yaml_tpye = request.POST['yaml_tpye']
+                # yaml_tpye = request.POST['yaml_tpye']
+                yaml_tpye = 'main'
                 
                 try :
                     this_path = request.POST.get('path')
