@@ -30,10 +30,11 @@ class Yaml(Base):
                 content = request.POST['content']
                 yaml_tpye = 'main'
                 # request.POST['yaml_tpye']
-                file_type = request.POST['file_type']
+                #file_type = request.POST['file_type']
                 describe = request.POST['describe']
                 
-                result = self.ansible_yaml_api.add(content, name, yaml_tpye=yaml_tpye, file_type=file_type, describe=describe)
+                #result = self.ansible_yaml_api.add(content, name, yaml_tpye=yaml_tpye, file_type=file_type, describe=describe)
+                result = self.ansible_yaml_api.add(content, name, yaml_tpye=yaml_tpye, describe=describe)
                 if not result[0] :
                     error_message = self.username + ' 为用户' + username + '新增ansible yaml文件时失败，提交保存时发生错误，原因：' + result[1]
                     self.logger.error(error_message) 
