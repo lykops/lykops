@@ -1,4 +1,4 @@
-ansible==2.3.0
+ansible==2.6.18
 cryptography
 django==1.11
 #django-celery
